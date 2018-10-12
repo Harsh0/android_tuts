@@ -1,0 +1,20 @@
+build/
+build
+bin/
+gen/
+.idea/
+.gradle/
+*.iml
+*.class
+*.bin
+*java#
+*.swp
+*~
+
+# Exceptions
+!src/market/assets/*.bin
+
+local.properties
+project.properties
+.DS_Store
+
