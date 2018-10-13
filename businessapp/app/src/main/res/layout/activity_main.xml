@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <ImageView
+        android:id="@+id/happybirthday"
+        android:src="@drawable/happybirthday"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp" />
+        <TextView
+            android:id="@+id/business_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Business Name: "
+            app:layout_constraintTop_toBottomOf="@id/happybirthday"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
+        <TextView
+            android:id="@+id/business_name_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cake Dilim 2"
+            android:textColor="@color/green"
+            app:layout_constraintTop_toBottomOf="@id/happybirthday"
+            app:layout_constraintLeft_toRightOf="@id/business_name_label"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
+        <TextView
+            android:id="@+id/location_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location :"
+            app:layout_constraintTop_toBottomOf="@id/business_name_label"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
+
+    <ImageButton
+        android:id="@+id/location_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/business_name_label"
+        app:layout_constraintLeft_toRightOf="@id/location_label"
+        tools:src="@drawable/location" />
+    <TextView
+        android:text="Click to visit"
+        android:textColor="@color/blue"
+        android:textAppearance="?android:textAppearanceLarge"
+        app:layout_constraintTop_toBottomOf="@id/business_name_label"
+        app:layout_constraintLeft_toRightOf="@id/location_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</android.support.constraint.ConstraintLayout>
