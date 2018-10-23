@@ -43,16 +43,11 @@ public class MainActivity extends AppCompatActivity {
             // The code in this method will be executed when the numbers category is clicked on.
             @Override
             public void onClick(View view) {
-//                // Create a new intent to open the {@link NumbersActivity}
-//                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
-//
-//                // Start the new activity
-//                startActivity(numbersIntent);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("geo:47.6,-122.3"));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+                // Create a new intent to open the {@link NumbersActivity}
+                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
+
+                // Start the new activity
+                startActivity(numbersIntent);
             }
         });
 
@@ -101,22 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Start the new activity
                 startActivity(phrasesIntent);
-            }
-        });
-
-        // Find the View that shows the phrases category
-        TextView harsh = (TextView) findViewById(R.id.harsh);
-
-        // Set a click listener on that View
-        harsh.setOnClickListener(new OnClickListener() {
-            // The code in this method will be executed when the phrases category is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link PhrasesActivity}
-                Intent harshIntents = new Intent(MainActivity.this, HarshActivity.class);
-
-                // Start the new activity
-                startActivity(harshIntents);
             }
         });
     }

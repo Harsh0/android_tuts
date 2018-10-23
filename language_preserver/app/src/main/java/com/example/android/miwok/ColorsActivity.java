@@ -17,6 +17,9 @@ package com.example.android.miwok;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
 
@@ -24,5 +27,25 @@ public class ColorsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colors);
+
+        //Create a list of word
+        ArrayList<Word> words = new ArrayList<Word>();
+        words.add(new Word("one", "lutti", R.drawable.color_black));
+        words.add(new Word("two", "lutti", R.drawable.color_brown));
+        words.add(new Word("three", "lutti", R.drawable.number_three));
+        words.add(new Word("four", "lutti", R.drawable.number_four));
+        words.add(new Word("five", "lutti", R.drawable.number_five));
+        words.add(new Word("six", "lutti", R.drawable.number_six));
+        words.add(new Word("seven", "lutti",R.drawable.number_seven));
+        words.add(new Word("eight", "lutti", R.drawable.number_eight));
+        words.add(new Word("nine", "lutti", R.drawable.number_nine));
+        words.add(new Word("ten", "na'aacha"));
+
+        WordAdapter adapter = new WordAdapter(this, words, R.color.category_colors);
+
+        ListView listView = (ListView) findViewById(R.id.list);
+
+        listView.setAdapter(adapter);
+
     }
 }

@@ -46,10 +46,4 @@
         android:background="@color/category_phrases"
         android:text="@string/category_phrases" />
 
-    <TextView
-        style="@style/CategoryStyle"
-        android:background="@color/category_numbers"
-        android:id="@+id/harsh"
-        android:text="Harsh" />
-
 </LinearLayout>
