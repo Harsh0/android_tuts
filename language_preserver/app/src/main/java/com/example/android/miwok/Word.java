@@ -8,17 +8,21 @@ public class Word {
 
     private int imageResourceId = NO_IMAGE_PROVIDED;
 
+    private  int audioResourceId;
+
     private static final int NO_IMAGE_PROVIDED = -1;
 
-    public Word(String defaultTranslation, String miwokTranslation){
+    public Word(String defaultTranslation, String miwokTranslation, int audioResourceId){
             this.defaultTranslation = defaultTranslation;
             this.miwokTranslation = miwokTranslation;
+            this.audioResourceId = audioResourceId;
     }
 
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId){
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioResourceId){
         this.defaultTranslation = defaultTranslation;
         this.miwokTranslation = miwokTranslation;
         this.imageResourceId = imageResourceId;
+        this.audioResourceId = audioResourceId;
     }
 
     public String getDefaultTranslation() {
@@ -33,6 +37,23 @@ public class Word {
 
     public boolean hasImage() {
         return imageResourceId != NO_IMAGE_PROVIDED;
+    }
+
+    public int getAudioTranslation() {
+        return audioResourceId;
+    }
+
+    /**
+     * Returns the string representation of the {@link Word} object.
+     */
+    @Override
+    public String toString() {
+        return "Word{" +
+            "mDefaultTranslation='" + defaultTranslation + '\'' +
+            ", mMiwokTranslation='" + miwokTranslation + '\'' +
+            ", mAudioResourceId=" + audioResourceId +
+            ", mImageResourceId=" + imageResourceId +
+            '}';
     }
 
 }

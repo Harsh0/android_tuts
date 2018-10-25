@@ -15,8 +15,13 @@
  */
 package com.example.android.miwok;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,17 +34,17 @@ public class PhrasesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phrases);
 
         //Create a list of word
-        ArrayList<Word> words = new ArrayList<Word>();
-        words.add(new Word("one", "lutti"));
-        words.add(new Word("two", "lutti"));
-        words.add(new Word("three", "lutti"));
-        words.add(new Word("four", "lutti"));
-        words.add(new Word("five", "lutti"));
-        words.add(new Word("six", "lutti"));
-        words.add(new Word("seven", "lutti"));
-        words.add(new Word("eight", "lutti"));
-        words.add(new Word("nine", "lutti"));
-        words.add(new Word("ten", "na'aacha"));
+        final ArrayList<Word> words = new ArrayList<Word>();
+        words.add(new Word("one", "lutti", R.raw.number_one));
+        words.add(new Word("two", "lutti", R.raw.number_one));
+        words.add(new Word("three", "lutti", R.raw.number_one));
+        words.add(new Word("four", "lutti", R.raw.number_one));
+        words.add(new Word("five", "lutti", R.raw.number_one));
+        words.add(new Word("six", "lutti", R.raw.number_one));
+        words.add(new Word("seven", "lutti", R.raw.number_one));
+        words.add(new Word("eight", "lutti", R.raw.number_one));
+        words.add(new Word("nine", "lutti", R.raw.number_one));
+        words.add(new Word("ten", "na'aacha", R.raw.number_one));
 
         WordAdapter adapter = new WordAdapter(this, words, R.color.category_phrases);
 
@@ -47,5 +52,16 @@ public class PhrasesActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
+            Word word = words.get(position);
+
+            Log.v("PhrasesActivity", "Current word: " + word);
+
+            MediaPlayer.create(PhrasesActivity.this, word.getAudioTranslation()).start();
+            }
+        });
     }
 }

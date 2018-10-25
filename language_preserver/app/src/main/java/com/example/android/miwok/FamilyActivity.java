@@ -15,8 +15,13 @@
  */
 package com.example.android.miwok;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,17 +34,17 @@ public class FamilyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_family);
 
         //Create a list of word
-        ArrayList<Word> words = new ArrayList<Word>();
-        words.add(new Word("one", "lutti", R.drawable.family_father));
-        words.add(new Word("two", "lutti", R.drawable.family_daughter));
-        words.add(new Word("three", "lutti", R.drawable.number_three));
-        words.add(new Word("four", "lutti", R.drawable.number_four));
-        words.add(new Word("five", "lutti", R.drawable.number_five));
-        words.add(new Word("six", "lutti", R.drawable.number_six));
-        words.add(new Word("seven", "lutti",R.drawable.number_seven));
-        words.add(new Word("eight", "lutti", R.drawable.number_eight));
-        words.add(new Word("nine", "lutti", R.drawable.number_nine));
-        words.add(new Word("ten", "na'aacha"));
+        final ArrayList<Word> words = new ArrayList<Word>();
+        words.add(new Word("one", "lutti", R.drawable.family_father, R.raw.family_father));
+        words.add(new Word("two", "lutti", R.drawable.family_daughter, R.raw.family_daughter));
+        words.add(new Word("three", "lutti", R.drawable.number_three, R.raw.number_one));
+        words.add(new Word("four", "lutti", R.drawable.number_four, R.raw.number_one));
+        words.add(new Word("five", "lutti", R.drawable.number_five, R.raw.number_one));
+        words.add(new Word("six", "lutti", R.drawable.number_six, R.raw.number_one));
+        words.add(new Word("seven", "lutti",R.drawable.number_seven, R.raw.number_one));
+        words.add(new Word("eight", "lutti", R.drawable.number_eight, R.raw.number_one));
+        words.add(new Word("nine", "lutti", R.drawable.number_nine, R.raw.number_one));
+        words.add(new Word("ten", "na'aacha", R.drawable.number_ten, R.raw.number_ten));
 
         WordAdapter adapter = new WordAdapter(this, words, R.color.category_family);
 
@@ -47,5 +52,15 @@ public class FamilyActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
+                Word word = words.get(position);
+
+                Log.v("FamilyActivity", "Current word: " + word);
+
+                MediaPlayer.create(FamilyActivity.this, word.getAudioTranslation()).start();
+            }
+        });
     }
 }
