@@ -28,6 +28,15 @@ import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
 
+    private  MediaPlayer mMediaPlayer;
+
+    private  MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(final MediaPlayer mediaPlayer) {
+            releaseMediaPlayer();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +65,39 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
                 Word word = words.get(position);
+                releaseMediaPlayer();
 
                 Log.v("ColorsActivity", "Current word: " + word);
 
-                MediaPlayer.create(ColorsActivity.this, word.getAudioTranslation()).start();
+                mMediaPlayer = MediaPlayer.create(ColorsActivity.this, word.getAudioTranslation());
+
+                mMediaPlayer.start();
+
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             }
         });
+    }
 
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mMediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mMediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mMediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseMediaPlayer();
     }
 }
