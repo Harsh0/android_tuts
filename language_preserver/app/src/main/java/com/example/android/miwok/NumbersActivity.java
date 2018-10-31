@@ -15,6 +15,8 @@
  */
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
@@ -31,10 +33,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class NumbersActivity extends AppCompatActivity {
 
     private  MediaPlayer mMediaPlayer;
+
+    private AudioManager mAudioManager;
 
     private  MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -42,6 +47,28 @@ public class NumbersActivity extends AppCompatActivity {
             releaseMediaPlayer();
         }
     };
+
+    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+        new AudioManager.OnAudioFocusChangeListener() {
+            public void onAudioFocusChange(int focusChange) {
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                    // Permanent loss of audio focus
+                    // Pause playback immediately
+                    releaseMediaPlayer();
+                } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                    // Pause playback
+                    // Lower the volume, keep playing
+                    mMediaPlayer.pause();
+                    mMediaPlayer.seekTo(0);
+                } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                    // Your app has been granted audio focus again
+                    // Raise volume to normal, restart playback if necessary
+                    mMediaPlayer.start();
+                    //resuming media player
+                }
+            }
+        };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +99,15 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
                 Word word = words.get(position);
 
+                mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if(result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+//                    mAudioManager.registerMediaButtonEventReceiver(RemoteControlReceiver);
+
+                }
+
                 releaseMediaPlayer();
 
                 Log.v("NumbersActivity", "Current word: " + word);
@@ -99,6 +135,7 @@ public class NumbersActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
         }
     }
 
