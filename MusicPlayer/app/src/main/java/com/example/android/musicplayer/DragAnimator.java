@@ -7,46 +7,34 @@ import android.view.animation.LinearInterpolator;
 
 /**
  * created by hsnghal on 03/12/2019.
- * This class used to drag view.
+ * This class is used to perform actual drag animation and reset view based on certain configurations.
  */
 public class DragAnimator {
 
     // default motion buffer zone to prevent view from sliding when user click on view and finger slipped
     private static final int DEFAULT_DRAG_DETECTION_BUFFER = 15;
 
-    private View view;
+    private View mView;
 
-    private float centerX = 0;
-    private float centerY = 0;
+    private float mCenterX = 0;
+    private float mCenterY = 0;
     private float mMinDragDetectionBufferX = -1;
     private float mMinDragDetectionBufferY = -1;
-    private float dragBufferDistanceX = 0;
-    private float dragBufferDistanceY = 0;
-    private long resetAnimationDuration = 0;
+    private float mDragBufferDistanceX = 0;
+    private float mDragBufferDistanceY = 0;
+    private long mResetAnimationDuration = 0;
 
     public void setView(final View view) {
-        this.view = view;
+        mView = view;
 
         calculateViewPosition();
         init();
     }
 
-    private void init() {
-        if (mMinDragDetectionBufferX < 0) {
-            mMinDragDetectionBufferX = DEFAULT_DRAG_DETECTION_BUFFER;
-        }
-        if (mMinDragDetectionBufferY < 0) {
-            mMinDragDetectionBufferY = DEFAULT_DRAG_DETECTION_BUFFER;
-        }
-        DisplayMetrics dispMetrics = view.getResources().getDisplayMetrics();
-        dragBufferDistanceX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mMinDragDetectionBufferX, dispMetrics);
-        dragBufferDistanceY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mMinDragDetectionBufferY, dispMetrics);
-    }
-
     public void drag(final float x, final float y) {
-        if (Math.abs(x) > dragBufferDistanceX || Math.abs(y) > dragBufferDistanceY) {
-            view.setX(centerX + x);
-            view.setY(centerY + y);
+        if (Math.abs(x) > mDragBufferDistanceX || Math.abs(y) > mDragBufferDistanceY) {
+            mView.setX(mCenterX + x);
+            mView.setY(mCenterY + y);
         }
     }
 
@@ -59,21 +47,33 @@ public class DragAnimator {
     }
 
     public void setAnimationDurationOnReset(final long duration) {
-        resetAnimationDuration = duration;
+        mResetAnimationDuration = duration;
     }
 
     public void resetView() {
-        view
+        mView
             .animate()
-            .x(centerX)
-            .y(centerY)
+            .x(mCenterX)
+            .y(mCenterY)
             .setInterpolator(new LinearInterpolator())
-            .setDuration(resetAnimationDuration)
+            .setDuration(mResetAnimationDuration)
             .start();
     }
 
+    private void init() {
+        if (mMinDragDetectionBufferX < 0) {
+            mMinDragDetectionBufferX = DEFAULT_DRAG_DETECTION_BUFFER;
+        }
+        if (mMinDragDetectionBufferY < 0) {
+            mMinDragDetectionBufferY = DEFAULT_DRAG_DETECTION_BUFFER;
+        }
+        DisplayMetrics dispMetrics = mView.getResources().getDisplayMetrics();
+        mDragBufferDistanceX = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mMinDragDetectionBufferX, dispMetrics);
+        mDragBufferDistanceY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mMinDragDetectionBufferY, dispMetrics);
+    }
+
     private void calculateViewPosition() {
-        centerX = view.getX();
-        centerY = view.getY();
+        mCenterX = mView.getX();
+        mCenterY = mView.getY();
     }
 }

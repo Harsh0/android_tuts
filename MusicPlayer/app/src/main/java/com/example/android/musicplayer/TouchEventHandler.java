@@ -10,16 +10,18 @@ import android.view.View.OnTouchListener;
  */
 public class TouchEventHandler {
 
-    private View view;
     private OnSwipeEventListener mOnSwipeEventListener;
     private OnDragEventListener mOnDragEventListener;
 
-    private float posX = 0; // current x position of view when motion started
-    private float posY = 0; // current y position of view when motion started
+    private float posX = 0; // x coordinate of view when motion started
+    private float posY = 0; // y coordinate of view when motion started
     private float posDiff = 0; // to track position difference on swipe event
 
     private boolean gestureCompleted;
     private DragAction dragAction = DragAction.NONE;
+
+    private float mMinSwipeDetectionX = 0;
+    private float mMinSwipeDetectionY = 0;
 
     private enum DragAction {
         RIGHT,
@@ -44,89 +46,114 @@ public class TouchEventHandler {
                     break;
                 case MotionEvent.ACTION_MOVE:
                     float translateX = motionEvent.getRawX() - posX;
-                    // getY() get relative distance motionevent to jewel, since jewel keep moving
-                    // this would result in jewel twitching in vertical drag
-                    // use getRawY() to calculate absolute distance from original position
                     float translateY = motionEvent.getRawY() - posY;
 
-                    if (mOnDragEventListener != null) {
-                        if (Math.abs(translateY) > Math.abs(translateX)) {
-                            if (translateY < 0) {
-                                dragAction = DragAction.UP;
-                                mOnDragEventListener.onDragUp(translateY);
-                            } else {
-                                dragAction = DragAction.DOWN;
-                                mOnDragEventListener.onDragDown(translateY);
-                            }
-                            posDiff = Math.abs(translateY);
+                    if (Math.abs(translateY) > Math.abs(translateX)) {
+                        if (translateY < 0) {
+                            dragAction = DragAction.UP;
                         } else {
-                            if (translateX < 0) {
-                                dragAction = DragAction.LEFT;
-                                mOnDragEventListener.onDragLeft(translateX);
-                            } else {
-                                dragAction = DragAction.RIGHT;
-                                mOnDragEventListener.onDragRight(translateX);
-                            }
-                            posDiff = Math.abs(translateX);
+                            dragAction = DragAction.DOWN;
                         }
+                        posDiff = Math.abs(translateY);
+                    } else {
+                        if (translateX < 0) {
+                            dragAction = DragAction.LEFT;
+                        } else {
+                            dragAction = DragAction.RIGHT;
+                        }
+                        posDiff = Math.abs(translateX);
                     }
+                    onDrag(dragAction, translateX, translateY);
                     break;
                 case MotionEvent.ACTION_UP:
-                    DragAction finalAction = dragAction;
-
-                    executeAction(finalAction);
+                    onSwipe(dragAction);
                     break;
             }
             return true;
         }
     };
 
-    public TouchEventHandler(final View v) {
-        view = v;
-    }
-
     public OnTouchListener getTouchEventListener() {
         return mOnTouchListener;
     }
 
-    public void setOnSwipeEventListener(OnSwipeEventListener listener) {
+    public void setOnSwipeEventListener(final OnSwipeEventListener listener) {
         mOnSwipeEventListener = listener;
     }
 
-    public void setOnDragEventListener(OnDragEventListener listener) {
+    public void setOnDragEventListener(final OnDragEventListener listener) {
         mOnDragEventListener = listener;
+    }
+
+    public void setMinSwipeDetectionX(final float minSwipeDetectionX) {
+        mMinSwipeDetectionX = minSwipeDetectionX;
+    }
+
+    public void setMinSwipeDetectionY(final float minSwipeDetectionY) {
+        mMinSwipeDetectionY = minSwipeDetectionY;
     }
 
     public void clear() {
         // clear out resources, to be called from onDestroy of activity to prevent memory leak
-        view = null;
         mOnSwipeEventListener = null;
         mOnDragEventListener = null;
     }
 
-    private void executeAction(DragAction action) {
+    private void onDrag(final DragAction action, final float x, final float y) {
+        if (mOnDragEventListener == null) {
+            return;
+        }
+        switch (action) {
+            case RIGHT:
+                mOnDragEventListener.onDragRight(x);
+                break;
+            case LEFT:
+                mOnDragEventListener.onDragLeft(x);
+                break;
+            case DOWN:
+                mOnDragEventListener.onDragDown(y);
+                break;
+            case UP:
+                mOnDragEventListener.onDragUp(y);
+                break;
+            case NONE:
+            default:
+                break;
+        }
+    }
+
+    private void onSwipe(final DragAction action) {
         if (mOnSwipeEventListener == null || gestureCompleted) {
+            dragAction = DragAction.NONE;
             return;
         }
 
         switch (action) {
             case RIGHT:
-                mOnSwipeEventListener.onSwipeRight(posDiff);
+                if (posDiff > mMinSwipeDetectionX) {
+                    mOnSwipeEventListener.onSwipeRight(posDiff);
+                }
                 break;
             case LEFT:
-                mOnSwipeEventListener.onSwipeLeft(posDiff);
+                if (posDiff > mMinSwipeDetectionX) {
+                    mOnSwipeEventListener.onSwipeLeft(posDiff);
+                }
                 break;
             case UP:
-                mOnSwipeEventListener.onSwipeUp(posDiff);
+                if (posDiff > mMinSwipeDetectionY) {
+                    mOnSwipeEventListener.onSwipeUp(posDiff);
+                }
                 break;
             case DOWN:
-                mOnSwipeEventListener.onSwipeDown(posDiff);
+                if (posDiff > mMinSwipeDetectionY) {
+                    mOnSwipeEventListener.onSwipeDown(posDiff);
+                }
                 break;
             case NONE:
             default:
                 break;
         }
         gestureCompleted = true;
-        this.dragAction = DragAction.NONE;
+        dragAction = DragAction.NONE;
     }
 }
