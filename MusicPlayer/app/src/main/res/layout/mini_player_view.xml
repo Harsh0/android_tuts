@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:test="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <!--Playback extra controls repeat/shuffle/thumbsUp/thumbsDown/queue/casting-->
+        <LinearLayout
+            android:id="@+id/MiniPlayerExtraControl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/standard_padding"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_alignParentRight="true">
+
+            <ImageButton
+                android:id="@+id/MiniPlayerRepeatButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerShuffleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerThumbsUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerThumbsDownButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerQueueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerCastingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+        </LinearLayout>
+
+        <!--Playback controls Play/Prev/Next-->
+        <LinearLayout
+            android:id="@+id/MiniPlayerControl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/standard_padding"
+            android:gravity="center"
+            android:layout_toLeftOf="@id/MiniPlayerExtraControl"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:visibility="gone"
+            android:layout_alignWithParentIfMissing="true">
+
+            <ImageButton
+                android:id="@+id/MiniPlayerPrevButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/player_btn_prev" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerPlayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/player_btn_play_tray" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerNextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/player_btn_next" />
+
+        </LinearLayout>
+
+        <!--Playback controls add/contextMenu-->
+        <LinearLayout
+            android:id="@+id/MiniPlayerExtraControl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/standard_padding"
+            android:gravity="center"
+            android:layout_toLeftOf="@id/MiniPlayerControl"
+            android:visibility="gone"
+            android:layout_alignWithParentIfMissing="true">
+
+            <ImageButton
+                android:id="@+id/MiniPlayerAddToLibraryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+
+            <ImageButton
+                android:id="@+id/MiniPlayerContextMenuButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_padding"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                android:src="@drawable/ic_repeat" />
+        </LinearLayout>
+
+        <!--Track info container Primary/Secondary title and artwork-->
+        <com.example.android.musicplayer.MiniPlayerContentView
+            android:id="@+id/MiniPlayerContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/MiniPlayerExtraControl2"
+            android:layout_centerVertical="true"
+            test:visibility="visible" />
+
+    </RelativeLayout>
+</FrameLayout>

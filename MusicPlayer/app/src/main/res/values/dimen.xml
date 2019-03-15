@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_padding">8dp</dimen>
+    <dimen name="album_art_width">54dp</dimen>
+    <dimen name="source_toggle_slider_padding">4dp</dimen>
+    <dimen name="spacing_2dp">2dp</dimen>
+</resources>
