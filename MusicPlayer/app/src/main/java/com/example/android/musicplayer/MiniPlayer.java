@@ -14,9 +14,7 @@ import java.util.List;
 public class MiniPlayer implements OnDragEventListener, OnSwipeEventListener {
     private static final String TAG = MiniPlayer.class.getSimpleName();
 
-    private MediaPlayer mMediaPlayer;
-    private List<Track> mTrackList;
-    private int currentPosition = 0;
+    private TrackManager mTrackManager;
 
     private MiniPlayerView mMiniPlayerView;
     private MiniPlayerContentView mMiniPlayerContentView;
@@ -41,15 +39,20 @@ public class MiniPlayer implements OnDragEventListener, OnSwipeEventListener {
 
     protected final Context mContext;
 
-    public MiniPlayer(final MiniPlayerView view, final List<Track> trackList) {
+    public MiniPlayer(final MiniPlayerView view) {
         mContext = view.getContext();
         mMiniPlayerView = view;
         init();
-        mTrackList = trackList;
 
-        mMediaPlayer = MediaPlayer.create(mContext, R.raw.duniya);
+        mTrackManager = TrackManager.getInstance(mContext);
+        mTrackManager.setCompleteListener(new OnCompletionListener() {
+            @Override
+            public void onCompletion(final MediaPlayer mediaPlayer) {
+                next();
+            }
+        });
+        mMiniPlayerContentView.setTrackInfo(mTrackManager.getCurrentTrack());
 
-        setTrack(currentPosition);
         setControlVisibility();
         setPlaybackListener();
 
@@ -103,23 +106,6 @@ public class MiniPlayer implements OnDragEventListener, OnSwipeEventListener {
         });
     }
 
-    private void setTrack(final int position) {
-        Track track = mTrackList.get(position);
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
-        }
-        mMediaPlayer = MediaPlayer.create(mContext, track.getMediaItem());
-        mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-            @Override
-            public void onCompletion(final MediaPlayer mediaPlayer) {
-                next();
-            }
-        });
-        mMiniPlayerContentView.setTitle(track.getTitle());
-        mMiniPlayerContentView.setSubtitle(track.getSubtitle());
-        mMiniPlayerContentView.setArtworkDrawable(mContext.getDrawable(track.getArtwork()));
-    }
-
     private void setControlVisibility() {
         playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_play_tray));
         playerControl.setVisibility(View.VISIBLE);
@@ -129,40 +115,28 @@ public class MiniPlayer implements OnDragEventListener, OnSwipeEventListener {
     }
 
     private void playOrPause() {
-        if (mMediaPlayer != null) {
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.pause();
-                playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_play_tray));
-            } else {
-                mMediaPlayer.start();
-                playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
-            }
+        mTrackManager.playOrPause();
+        if (mTrackManager.isPlaying()) {
+            playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
+        } else {
+            playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_play_tray));
         }
     }
 
     private void next() {
-        if (mMediaPlayer != null) {
-            currentPosition += 1;
-            currentPosition = currentPosition % mTrackList.size();
-            setTrack(currentPosition);
-            playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
-            mMediaPlayer.start();
-        }
+        mTrackManager.next();
+        mMiniPlayerContentView.setTrackInfo(mTrackManager.getCurrentTrack());
+        playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
     }
 
     private void prev() {
-        if (mMediaPlayer != null) {
-            currentPosition += mTrackList.size() - 1;
-            currentPosition = currentPosition % mTrackList.size();
-            setTrack(currentPosition);
-            playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
-            mMediaPlayer.start();
-        }
+        mTrackManager.prev();
+        mMiniPlayerContentView.setTrackInfo(mTrackManager.getCurrentTrack());
+        playButton.setImageDrawable(mContext.getDrawable(R.drawable.player_btn_pause_tray));
     }
 
     public void clear() {
-        mMediaPlayer.stop();
-        mMediaPlayer = null;
+        mTrackManager.clear();
         mTouchEventHandler.clear();
     }
 

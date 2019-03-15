@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class MiniPlayerContentView extends LinearLayout {
 
+    private Context mContext;
     private TextView mTitle;
     private TextView mSubtitle;
     private ImageView mArtwork;
@@ -35,6 +36,7 @@ public class MiniPlayerContentView extends LinearLayout {
     }
 
     private void init(Context context) {
+        mContext = context;
         View.inflate(context, R.layout.mini_player_content_view, this);
         mTitle = (TextView) findViewById(R.id.MiniPlayerTitle);
         mSubtitle = (TextView) findViewById(R.id.MiniPlayerSubtitle);
@@ -62,5 +64,11 @@ public class MiniPlayerContentView extends LinearLayout {
             mArtwork.setImageDrawable(drawable);
             mArtwork.setVisibility(VISIBLE);
         }
+    }
+
+    public void setTrackInfo(final Track track) {
+        setTitle(track.getTitle());
+        setSubtitle(track.getSubtitle());
+        setArtworkDrawable(mContext.getDrawable(track.getArtwork()));
     }
 }

@@ -34,8 +34,10 @@ public class DragAnimator {
 
     public void drag(final float x, final float y) {
         if (Math.abs(x) > mDragBufferDistanceX || Math.abs(y) > mDragBufferDistanceY) {
-            mView.setX(mCenterX + x);
-            mView.setY(mCenterY + y);
+            if (mView != null) {
+                mView.setX(mCenterX + x);
+                mView.setY(mCenterY + y);
+            }
         }
     }
 
@@ -52,13 +54,15 @@ public class DragAnimator {
     }
 
     public void resetView() {
-        mView
-            .animate()
-            .x(mCenterX)
-            .y(mCenterY)
-            .setInterpolator(new LinearInterpolator())
-            .setDuration(mResetAnimationDuration)
-            .start();
+        if (mView != null) {
+            mView
+                .animate()
+                .x(mCenterX)
+                .y(mCenterY)
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(mResetAnimationDuration)
+                .start();
+        }
     }
 
     private void init() {
