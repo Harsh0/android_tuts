@@ -37,37 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 public class NumbersActivity extends AppCompatActivity {
 
-    private  MediaPlayer mMediaPlayer;
 
-    private AudioManager mAudioManager;
-
-    private  MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(final MediaPlayer mediaPlayer) {
-            releaseMediaPlayer();
-        }
-    };
-
-    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
-        new AudioManager.OnAudioFocusChangeListener() {
-            public void onAudioFocusChange(int focusChange) {
-                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-                    // Permanent loss of audio focus
-                    // Pause playback immediately
-                    releaseMediaPlayer();
-                } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-                    // Pause playback
-                    // Lower the volume, keep playing
-                    mMediaPlayer.pause();
-                    mMediaPlayer.seekTo(0);
-                } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                    // Your app has been granted audio focus again
-                    // Raise volume to normal, restart playback if necessary
-                    mMediaPlayer.start();
-                    //resuming media player
-                }
-            }
-        };
 
 
     @Override
@@ -121,23 +91,6 @@ public class NumbersActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Clean up the media player by releasing its resources.
-     */
-    private void releaseMediaPlayer() {
-        // If the media player is not null, then it may be currently playing a sound.
-        if (mMediaPlayer != null) {
-            // Regardless of the current state of the media player, release its resources
-            // because we no longer need it.
-            mMediaPlayer.release();
-
-            // Set the media player back to null. For our code, we've decided that
-            // setting the media player to null is an easy way to tell that the media player
-            // is not configured to play an audio file at the moment.
-            mMediaPlayer = null;
-            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
-        }
-    }
 
     @Override
     protected void onPause() {
