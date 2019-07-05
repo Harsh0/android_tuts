@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MiniPlayerView mp = (MiniPlayerView) findViewById(R.id.MiniMediaPlayer);
-        mMiniPlayer = new MiniPlayer(mp);
+        mMiniPlayer = new MiniPlayer();
+        mMiniPlayer.attach(this);
     }
 
     @Override

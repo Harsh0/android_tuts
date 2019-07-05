@@ -31,7 +31,7 @@ public class TrackManager {
 
     private void addTrack() {
         Track track = new Track();
-        track.setTitle("Duniya Duniya Duniya Duniya Duniya Duniya");
+        track.setTitle("Duniya ");
         track.setSubtitle("Luka Chupi");
         track.setArtwork(R.drawable.duniya);
         track.setMediaItem(R.raw.duniya);
@@ -48,16 +48,36 @@ public class TrackManager {
         track.setArtwork(R.drawable.lamberghini);
         track.setMediaItem(R.raw.lambherghini);
         mTrackList.add(track);
+        track = new Track();
+        track.setTitle("Duniya 2");
+        track.setSubtitle("Luka Chupi 2");
+        track.setArtwork(R.drawable.duniya);
+        track.setMediaItem(R.raw.duniya);
+        mTrackList.add(track);
+        track = new Track();
+        track.setTitle("Dariya 2");
+        track.setSubtitle("Bar Bar Dekho 2");
+        track.setArtwork(R.drawable.dariya);
+        track.setMediaItem(R.raw.dariya);
+        mTrackList.add(track);
+        track = new Track();
+        track.setTitle("Lambherghini 2");
+        track.setSubtitle("The Doorbean Song 2");
+        track.setArtwork(R.drawable.lamberghini);
+        track.setMediaItem(R.raw.lambherghini);
+        mTrackList.add(track);
     }
 
-    public Track getNextTrack() {
-        int position = (currentTrackPosition + 1) / mTrackList.size();
+    public Track getAt(int position) {
         return mTrackList.get(position);
     }
 
-    public Track getPrevTrack() {
-        int position = (currentTrackPosition - 1 + mTrackList.size()) / mTrackList.size();
-        return mTrackList.get(position);
+    public int getTotal() {
+        return mTrackList.size();
+    }
+
+    public int getCurrentTrackPosition() {
+        return currentTrackPosition;
     }
 
     public Track getCurrentTrack() {

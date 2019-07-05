@@ -1,12 +1,17 @@
 package com.example.android.musicplayer;
 
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 public class ViewSlideAnimator {
 
-    private View mCurrentView;
-    private View mReplacementView;
     private ViewSwipeAction mSwipeAction = ViewSwipeAction.NONE;
+
+    private ViewPager mViewPager;
+
+    public ViewSlideAnimator(final ViewPager viewPager) {
+        mViewPager = viewPager;
+    }
 
     public enum ViewSwipeAction {
         LEFT,
@@ -17,21 +22,32 @@ public class ViewSlideAnimator {
     }
 
     public void setCurrentView(final View view) {
-        mCurrentView = view;
         // TODO: consider logic for determining current view position and what the change in x or y should be once the animation completes
+        mViewPager.addView(view, 0, view.getLayoutParams());
     }
 
-    private void setReplacementView(final View view) {
-        mReplacementView = view;
-    }
 
     public void setViewSwipeAction(final ViewSwipeAction swipeAction) {
         mSwipeAction = swipeAction;
     }
 
     public void executeSwipe() {
-        if (mSwipeAction == ViewSwipeAction.NONE) {
-            return;
+        switch (mSwipeAction) {
+            case LEFT:
+
+                break;
+            case RIGHT:
+
+                break;
+            case UP:
+
+                break;
+            case DOWN:
+
+                break;
+            case NONE:
+            default:
+                return;
         }
         // TODO perform animation to either just swipe mCurrentView or replace with mReplacementView if it is not null
 

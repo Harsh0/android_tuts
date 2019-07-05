@@ -6,10 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.android.musicplayer.MiniPlayerView
-        android:id="@+id/MiniMediaPlayer"
+    <!--<com.example.android.musicplayer.MiniPlayerView-->
+        <!--android:id="@+id/MiniMediaPlayer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <FrameLayout
+        android:id="@+id/persistent_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_alignParentBottom="true"
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

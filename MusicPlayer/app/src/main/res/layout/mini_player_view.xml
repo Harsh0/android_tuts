@@ -151,15 +151,23 @@
                 android:src="@drawable/ic_repeat" />
         </LinearLayout>
 
-        <!--Track info container Primary/Secondary title and artwork-->
-        <com.example.android.musicplayer.MiniPlayerContentView
-            android:id="@+id/MiniPlayerContent"
+        <!--&lt;!&ndash;Track info container Primary/Secondary title and artwork&ndash;&gt;-->
+        <!--<com.example.android.musicplayer.MiniPlayerContentView-->
+            <!--android:id="@+id/MiniPlayerContent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_toStartOf="@id/MiniPlayerExtraControl2"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--test:visibility="visible" />-->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/MiniPlayerContentPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/MiniPlayerExtraControl2"
-            android:layout_centerVertical="true"
-            test:visibility="visible" />
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 </FrameLayout>
